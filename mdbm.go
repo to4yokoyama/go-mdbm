@@ -433,10 +433,10 @@ func (db *MDBM) cgoRunCapture(call func() (int, error)) (int, string, error) {
 	defer db.cgomtx.Unlock()
 
 	orgStdErr, orgStdOut := os.Stderr, os.Stdout
-	orgCStdErr, orgCStdOut := C.stderr, C.stdout
+	//orgCStdErr, orgCStdOut := C.stderr, C.stdout
 	defer func() {
 		os.Stderr, os.Stdout = orgStdErr, orgStdOut
-		C.stderr, C.stdout = orgCStdErr, orgCStdOut
+		//C.stderr, C.stdout = orgCStdErr, orgCStdOut
 	}()
 
 	r, w, err := os.Pipe()
@@ -461,7 +461,7 @@ func (db *MDBM) cgoRunCapture(call func() (int, error)) (int, string, error) {
 	defer C.fclose(f)
 
 	os.Stderr, os.Stdout = w, w
-	C.stderr, C.stdout = f, f
+	//C.stderr, C.stdout = f, f
 
 	out := make(chan []byte)
 	go func() {
